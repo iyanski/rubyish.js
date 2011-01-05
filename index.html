@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Test Suite</title>
+		
+		<script type="text/javascript" src="deps/util.js"></script>
+		<script type="text/javascript" src="src/rubyish.js"></script>
+		<script type="text/javascript">
+		  	this.onload = function(){ 
+				log("Array tests");
+				assert( Array.test(['lol']), "Detecting an array");
+				assert( !Array.test(1), "Detecting if not an array");
+				log('Object tests');
+				assert( {}.remove("test", function (key) {
+					return key + " not found";
+				}) === "test not found", "Object: remove item with closure fallback");
+				assert( {test: 1}.remove("test") === 1, "Object: remove item");
+				assert( {tests: 1}.remove("test") === null, "Object: remove item not found");
+				
+				assert( !{test: 1, testing: 3}.deleteIf(function (k, v) {
+					return v > 1;
+				}).testing , "Object: removeIf item");
+				
+				var keys = ['a','b','c','d'];
+				var values = [1,2,3,4];
+				var obj = {a:1, b: 2, c: 3, d:4};
+				var count = 0;
+				obj.each(function (key, value) {
+					assert(key === keys[count], "Object: iteration -> key: " + key);
+					assert(value === values[count], "Object: iteration -> value: " + value);
+					count++;
+				});
+				
+				count = 0;
+				obj.eachKey(function (key) {
+					assert(key === keys[count], "Object: iteration -> key: " + key);
+					count++;
+				});
+				count = 0;
+				obj.eachValue(function (v) {
+					assert(v === values[count], "Object: iteration -> value: " + v);
+					count++;
+				});
+		  	};
+			
+		</script>
+		<style> 
+		    #results li.pass { color: green; } 
+		    #results li.fail { color: red; } 
+			#results li.log { color: gray; } 
+		</style>
+    </head>
+    <body >
+		<div id="results_container">
+			Results:
+			<ul id="results"></ul>
+		</div>
+		
+    </body>
+</html>
